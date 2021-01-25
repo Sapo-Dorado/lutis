@@ -39,6 +39,11 @@ jobs:
       - run: mix compile 
       - run: mix ecto.setup
       - run: npm install
+      - run: npm run coverage
+      - name: Upload to Codecov
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: bash <(curl -s https://codecov.io/bash)
       - run: MIX_ENV=test mix coveralls.json --trace
       - name: Upload to Codecov
         env:
