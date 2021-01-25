@@ -1,0 +1,9 @@
+{
+    "skip_files": [
+        "test",
+        "lib/lutis/application.ex",
+        "lib/lutis_web.ex",
+        "lib/lutis_web/views/error_helpers.ex"
+
+    ]
+}
