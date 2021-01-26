@@ -9,14 +9,21 @@ defmodule LutisWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  # pipeline :api do
-  #   plug :accepts, ["json"]
-  # end
+  pipeline :api do
+    plug :accepts, ["json"]
+  end
 
   scope "/", LutisWeb do
     pipe_through :browser
 
     get "/", PageController, :index
+  end
+
+  scope "/auth", LutisWeb do
+    pipe_through :api
+
+    get "/google", AuthController, :request
+    get "/google/callback", AuthController, :callback
   end
 
   # scope "/api", LutisWeb do
