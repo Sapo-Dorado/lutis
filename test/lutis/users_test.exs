@@ -6,7 +6,8 @@ defmodule Lutis.UsersTest do
   describe "users" do
     alias Lutis.Users.User
 
-    @valid_attrs %{email: "some email", oauth_token: "some oauth_token", username: "some username"}
+    @valid_attrs %{email: "test@email.com", username: "some username"}
+    @invalid_email "invalid@email.com"
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
@@ -19,15 +20,28 @@ defmodule Lutis.UsersTest do
 
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Users.create_user(@valid_attrs)
-      assert user.email == "some email"
-      assert user.oauth_token == "some oauth_token"
-      assert user.username == "some username"
+      assert user.email == @valid_attrs.email
     end
 
-    test "update_token/2 updates the user's token" do
+    test "add_username/2 with valid email adds username and returns error otherwise" do
       user = user_fixture()
-      assert {:ok, updated_user} = Users.update_token(user, "new token")
-      assert updated_user.oauth_token == "new token"
+      assert user.username == nil
+      assert {:ok, %User{} = user} = Users.add_username(@valid_attrs.email, @valid_attrs.username)
+      assert user.username == @valid_attrs.username
+      assert {:error, _ } = Users.add_username(@invalid_email, "en")
+    end
+
+    test "get_user/1 returns the corresponding user and nil otherwise" do
+      user = user_fixture()
+      assert user.email == Users.get_user(user.email).email
+      assert nil == Users.get_user("Invalid email")
+    end
+
+    test "usernames are unique" do
+      user_fixture()
+      user_fixture(%{email: "otheremail@test.com"})
+      Users.add_username(@valid_attrs.email, @valid_attrs.username)
+      assert {:error, _} = Users.add_username("otheremail@test.com", @valid_attrs.username)
     end
   end
 end

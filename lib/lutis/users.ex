@@ -4,15 +4,23 @@ defmodule Lutis.Users do
 
   alias Lutis.Users.User
 
+  def get_user(email) do
+    User
+    |> Repo.get_by(email: email)
+  end
   def create_user(attrs) do
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
   end
 
-  def update_token(user, token) do
-    user
-    |> User.changeset(%{oauth_token: token})
-    |> Repo.update()
+  def add_username(email, username) do
+    case Repo.get_by(User, email: email) do
+      nil -> {:error, %{"user" => ["does not exist"]}}
+      user ->
+        user
+        |> User.username_changeset(%{username: username})
+        |> Repo.update()
+    end
   end
 end

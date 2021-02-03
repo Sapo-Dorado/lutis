@@ -27,7 +27,7 @@ defmodule LutisWeb.AuthControllerTest do
 
   test "call to /auth/google redirects to google auth", %{conn: conn} do
     conn = get(conn, "/auth/google")
-    assert contains?(redirected_to(conn, 302), "accounts.google.com")
+    assert redirected_to(conn, 302) =~ "accounts.google.com"
   end
   test "callback without proper authentication redirects to home", %{conn: conn} do
     conn = get(conn, "/auth/google/callback")

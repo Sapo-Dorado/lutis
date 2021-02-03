@@ -4,7 +4,6 @@ defmodule Lutis.Users.User do
 
   schema "users" do
     field :email, :string
-    field :oauth_token, :string
     field :username, :string
 
     timestamps()
@@ -13,7 +12,16 @@ defmodule Lutis.Users.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :username, :oauth_token])
+    |> cast(attrs, [:email])
+  end
+
+  @doc false
+  def username_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:username])
+    |> validate_required(:username)
+    |> validate_length(:username, min: 3)
     |> unique_constraint(:username)
   end
+
 end

@@ -1,4 +1,5 @@
 var UserInfo = (() => {
+  let username = null
   let email = null
   let token = null
 
@@ -8,6 +9,14 @@ var UserInfo = (() => {
 
   let setEmail = new_email => {
     email = new_email
+  }
+
+  let setUsername = new_username => {
+    username = new_username
+  }
+
+  let getUsername = () => {
+    return username
   }
 
   let getToken = () => {
@@ -21,6 +30,8 @@ var UserInfo = (() => {
   return {
     getEmail: getEmail,
     setEmail: setEmail,
+    getUsername: getUsername,
+    setUsername: setUsername,
     getToken: getToken,
     setToken: setToken
   }

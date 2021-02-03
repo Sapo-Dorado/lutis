@@ -46,9 +46,10 @@ defmodule Lutis.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:excoveralls, "~> 0.13.4", only: :test},
       {:ueberauth, "~> 0.6.3"},
-      {:ueberauth_google, "~> 0.10"}
+      {:ueberauth_google, "~> 0.10"},
+      {:excoveralls, "~> 0.13.4", only: :test},
+      {:mock, "~> 0.3.0", only: :test}
     ]
   end
 
