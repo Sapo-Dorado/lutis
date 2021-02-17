@@ -9,6 +9,7 @@
     "coverage": "jest --coverage"
   },
   "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.12.10",
     "@babel/preset-react": "^7.12.10",
     "phoenix": "file:deps/phoenix",
     "phoenix_html": "file:deps/phoenix_html",
