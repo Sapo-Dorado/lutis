@@ -1,6 +1,6 @@
 import React from "react"
 import HomePage from "./main/pages/HomePage";
-import PostIndexPage from "./main/pages/PostIndexPage";
+import PostPage from "./main/pages/PostPage";
 import UsernamePage from "./main/pages/UsernamePage";
 import UserInfo from "./main/utils/UserInfo"
 
@@ -33,7 +33,7 @@ export default class Root extends React.Component {
     } else if (this.state.page == "username") {
       page = <UsernamePage />
     } else {
-      page = <PostIndexPage />
+      page = <PostPage />
     }
     return (
       <>

@@ -2,6 +2,7 @@ defmodule LutisWeb.Router do
   use LutisWeb, :router
 
   alias Ueberauth.Strategy.Google.OAuth
+  alias Lutis.Users
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -9,6 +10,10 @@ defmodule LutisWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+  end
+
+  pipeline :public_api do
+    plug :accepts, ["json"]
   end
 
   pipeline :auth_api do
@@ -23,9 +28,19 @@ defmodule LutisWeb.Router do
   end
 
   scope "/api", LutisWeb do
+    pipe_through :public_api
+
+    get "/posts", PostController, :index
+    get "/posts/:id", PostController, :show
+  end
+
+  scope "/api", LutisWeb do
     pipe_through :auth_api
 
     post "/username", UserController, :username
+    post "/posts/create", PostController, :create
+    patch "/posts/:id/update", PostController, :update
+    delete "/posts/:id/delete", PostController, :delete
   end
 
   scope "/auth", LutisWeb do
@@ -39,6 +54,7 @@ defmodule LutisWeb.Router do
     case verify_token(conn) do
       {:ok, conn} ->
         conn
+        |> assign(:user_id, Users.get_userid(conn.params["email"]))
       {:error, :unauthorized} ->
         conn
         |> put_view(LutisWeb.ErrorView)

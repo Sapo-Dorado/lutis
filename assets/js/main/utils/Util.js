@@ -13,3 +13,13 @@ export async function setUsername(email, token, username) {
   let json = await response.json()
   return json
 }
+
+export async function getPosts() {
+  let headers = {
+    method: "GET",
+    headers: {"Content-type": "application/json; charset=UTF-8"}
+  }
+  let response = await fetch("/api/posts", headers)
+  let json = await response.json()
+  return json
+}

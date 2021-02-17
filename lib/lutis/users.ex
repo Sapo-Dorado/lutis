@@ -5,8 +5,11 @@ defmodule Lutis.Users do
   alias Lutis.Users.User
 
   def get_user(email) do
-    User
-    |> Repo.get_by(email: email)
+    Repo.get_by(User, email: email)
+  end
+
+  def get_userid(email) do
+    Repo.one(from u in User, where: u.email == ^email, select: u.id)
   end
   def create_user(attrs) do
     %User{}
