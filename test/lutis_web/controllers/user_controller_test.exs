@@ -29,7 +29,7 @@ defmodule LutisWeb.UserControllerTest do
 
   test "POST /api/username returns error with invalid authentication", %{conn: conn} do
     conn = post(conn, "/api/username")
-    assert json_response(conn, 200)["errors"] != %{}
+    assert json_response(conn, 401)["errors"] != %{}
   end
 
   test "POST /api/username returns error with invalid username", %{conn: conn} do

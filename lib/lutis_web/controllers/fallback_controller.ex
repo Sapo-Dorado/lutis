@@ -14,6 +14,12 @@ defmodule LutisWeb.FallbackController do
     |> render("error.json", changeset: changeset)
   end
 
+  def call(conn, {:error, :unauthorized}) do
+    conn
+    |> put_status(:unauthorized)
+    |> put_view(LutisWeb.ErrorView)
+    |> render("error.json", error: %{access: ["unauthorized"]})
+  end
   def call(conn, {:error, error}) do
     conn
     |> put_status(:internal_server_error)

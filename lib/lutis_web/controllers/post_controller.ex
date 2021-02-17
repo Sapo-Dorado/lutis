@@ -12,7 +12,7 @@ defmodule LutisWeb.PostController do
   end
 
   def create(conn, %{"post" => post_params}) do
-    with {:ok, %Post{} = post} <- Posting.create_post(post_params) do
+    with {:ok, %Post{} = post} <- Posting.create_post(conn.assigns.user_id, post_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.post_path(conn, :show, post))

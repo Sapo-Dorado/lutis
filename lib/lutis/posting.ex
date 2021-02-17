@@ -13,9 +13,9 @@ defmodule Lutis.Posting do
     Repo.get!(Post, id)
   end
 
-  def create_post(attrs \\ %{}) do
+  def create_post(user_id, attrs \\ %{}) do
     %Post{}
-    |> Post.changeset(attrs)
+    |> Post.changeset(Map.put(attrs, "author", user_id))
     |> Repo.insert()
   end
 
@@ -33,10 +33,10 @@ defmodule Lutis.Posting do
     Post.changeset(post, attrs)
   end
 
-  def validate_author(%Post{} = post, conn) do
+  def validate_author(conn, %Post{} = post) do
     cond do
       post.author == conn.assigns.user_id -> :ok
-      true -> %{errors: %{user: ["unauthorized"]}}
+      true -> {:error, :unauthorized}
     end
   end
 end

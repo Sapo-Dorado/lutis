@@ -39,7 +39,7 @@ defmodule LutisWeb.Router do
 
     post "/username", UserController, :username
     post "/posts/create", PostController, :create
-    patch "/posts/:id/update", PostController, :update
+    put "/posts/:id/update", PostController, :update
     delete "/posts/:id/delete", PostController, :delete
   end
 
@@ -54,9 +54,10 @@ defmodule LutisWeb.Router do
     case verify_token(conn) do
       {:ok, conn} ->
         conn
-        |> assign(:user_id, Users.get_userid(conn.params["email"]))
+        |> assign(:user_id, Users.get_user_id(conn.params["email"]))
       {:error, :unauthorized} ->
         conn
+        |> put_status(:unauthorized)
         |> put_view(LutisWeb.ErrorView)
         |> render("error.json", error: %{access: ["unauthorized"]})
         |> halt()
