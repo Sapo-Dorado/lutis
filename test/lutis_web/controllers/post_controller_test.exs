@@ -143,6 +143,17 @@ defmodule LutisWeb.PostControllerTest do
     end
   end
 
+  describe "show post" do
+    setup [:create_post]
+
+    test "shows chosen post and adds view", %{conn: conn, post: post} do
+      conn = get(conn, Routes.post_path(conn, :show, post))
+      assert json_response(conn, 200)["data"]["views"] == 1
+      conn = get(conn, Routes.post_path(conn, :show, post))
+      assert json_response(conn, 200)["data"]["views"] == 2
+    end
+  end
+
   defp create_post(_) do
     post = fixture(:post)
     %{post: post}

@@ -21,7 +21,10 @@ defmodule LutisWeb.PostController do
   end
 
   def show(conn, %{"id" => id}) do
-    post = Posting.get_post!(id)
+    post =
+      id
+      |> Posting.get_post!
+      |> Posting.add_view
     render(conn, "show.json", post: post)
   end
 

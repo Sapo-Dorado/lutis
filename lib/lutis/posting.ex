@@ -39,4 +39,11 @@ defmodule Lutis.Posting do
       true -> {:error, :unauthorized}
     end
   end
+
+  def add_view(%Post{} = post) do
+    {1, [%Post{views: views}]} =
+      from(p in Post, where: p.id == ^post.id, select: [:views])
+      |> Repo.update_all(inc: [views: 1])
+    put_in(post.views, views)
+  end
 end
